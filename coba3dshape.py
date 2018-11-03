@@ -13,12 +13,12 @@ Z_AXIS = 0.0
 DIRECTION = 1
 
 def initGL():
-    glClearColor(0.0, 0.0, 0.0, 0.0)
+    glClearColor(0.0, 0.0, 0.0, 0.0) #set background warna hitam
     glClearDepth(1.0)
     glEnable(GL_DEPTH_TEST)
     glDepthFunc(GL_LEQUAL)
     glShadeModel(GL_SMOOTH) #ngebagusin render hehe
-    glMatrixMode(GL_PROJECTION)
+    glMatrixMode(GL_PROJECTION) #ngeproyeksi dalam matriks
     glLoadIdentity()
     gluPerspective(45.0,1000/1000,0.1,100.0)
     glMatrixMode(GL_MODELVIEW) #buat jalanin model-view matriks
@@ -32,8 +32,8 @@ def draw_3d ():
     glLoadIdentity()
     glTranslatef(0.0,0.0,-6.0)
 
-    
-    glRotatef(X_AXIS,1.0,0.0,0.0)
+    #fitur rotasi dari opengl
+    glRotatef(X_AXIS,1.0,0.0,0.0) 
     glRotatef(Y_AXIS,0.0,1.0,0.0)
     glRotatef(Z_AXIS,0.0,0.0,1.0)
  
@@ -91,10 +91,10 @@ def draw_3d ():
 
 glutInit();
 glutInitDisplayMode(GLUT_DOUBLE)
-glutInitWindowSize(1000,1000)
-glutInitWindowPosition(50,50)
+glutInitWindowSize(1000,1000) #inisialisasi window 1000x1000 pixel
+glutInitWindowPosition(50,50) #posisi munculnya window
 glutCreateWindow("3D coi")
 glutDisplayFunc(draw_3d)
 glutIdleFunc(draw_3d)
 initGL()
-glutMainLoop()
+glutMainLoop() #ngeloop biar jalan terus
