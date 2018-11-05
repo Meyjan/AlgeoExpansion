@@ -4,19 +4,9 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-verticies = (
-    (1, -1, 0),
-    (1, 1, 0),
-    (-1, 1, 0),
-    (-1, -1, 0),
-    )
+verticies = []
 
-edges = (
-    (0,1),
-    (0,3),
-    (2,3),
-    (2,1)
-    )
+edges = []
 
 colors = (
     (1,0,0),
@@ -30,9 +20,18 @@ colors = (
     (0,0,0)
     )
 
-v=[]
-
 clock = pygame.time.Clock()
+
+def sisi():
+    x=0
+    y=1
+    for s in verticies:
+        z=(x,y)
+        edges.append(z)
+        x+=1
+        y+=1
+        y=(y%(len(verticies)))
+
 
 def Square():
     glBegin(GL_LINES)
@@ -41,29 +40,33 @@ def Square():
             glVertex3fv(verticies[vertex])
     glEnd()
 
-    glBegin(GL_QUADS)
+    glBegin(GL_POLYGON)
     x=0
-    for vertex in (0,1,2,3):
+    for vertex in verticies:
         x+=1
+        x=(x%9)
         glColor3fv(colors[x])
-        glVertex3fv(verticies[vertex])
+        glVertex3fv(vertex)
     glEnd()
 
 def Cartesius():
     glBegin(GL_LINES)
     glColor3fv((1,1,1))
-    glVertex3fv((0,0,-500))
-    glVertex3fv((0,0,500))
     glVertex3fv((0,-500,0))
     glVertex3fv((0,500,0))
     glVertex3fv((500,0,0))
     glVertex3fv((-500,0,0))
     glEnd()
 
-def inputpoint(point):
+def inputpoint2d():
     instr = input('Enter a point (x,y): ')
     inList = [float(n) for n in instr.split(',')]
-    point = tuple(inList)
+    while (len(inList)>2):
+        print('Input harus (x,y)')
+        instr = input('Enter a point (x,y): ')
+        inList = [float(n) for n in instr.split(',')]
+    inList.append(0)
+    return tuple(inList)
 
 
 def main():
@@ -72,11 +75,12 @@ def main():
     while (N<=1):
         N=input('Jumlah sudut harus diatas 1\n')
     while (N>0):
-        p=tuple
-        inputpoint(p)
-        v.append(p)
+        p=inputpoint2d()
+        verticies.append(p)
         N-=1
-    #hhihio
+    for vertex in verticies:
+        print(vertex)
+    sisi()
     pygame.init()
     display = (800,600)
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
