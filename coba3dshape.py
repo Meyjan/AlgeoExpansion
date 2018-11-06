@@ -91,7 +91,7 @@ def draw_3d ():
 
 glutInit();
 glutInitDisplayMode(GLUT_DOUBLE)
-glutInitWindowSize(1000,1000) #inisialisasi window 1000x1000 pixel
+glutInitWindowSize(500,500) #inisialisasi window 1000x1000 pixel
 glutInitWindowPosition(50,50) #posisi munculnya window
 glutCreateWindow("3D coi")
 glutDisplayFunc(draw_3d)
