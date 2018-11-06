@@ -1,6 +1,7 @@
 import numpy as np
 
-def inputpoint():
+# Input point
+def inputpoint(point):
     instr = input('Enter a point (x,y): ')
     inList = [float(n) for n in instr.split(',')]
     point = tuple(inList)
