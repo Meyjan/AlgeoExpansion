@@ -13,6 +13,7 @@ def RepresentFloat(s):
 # Create point
 def createpoint2D(a, b):
     point = np.array([a, b])
+    point = np.append(point, [0])
     return point
 def createpoint3D(a, b, c):
     point = np.array([a, b, c])
@@ -215,7 +216,7 @@ def Custom3(P, a, b, c, d, e, f, g, h, i):
 # Copy titik-titik di program utama agar tinggal dipanggil lagi nanti
 
 # Tester
-def main():
+'''def main():
     # Cek input
     i = int(input('2D or 3D? {2/3}: '))
     while ((i != 2) and (i != 3)):
@@ -350,4 +351,4 @@ def main():
     print('Program done. Terminating...')
 
 
-main()
+main()'''
