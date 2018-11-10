@@ -104,7 +104,7 @@ def Square():
 
 def setPolygon():
     global verticies
-    N=input('Masukkan jumlah sudut\n')
+    N=input('Masukkan jumlah sudut (Sudut-sudut yang dimasukkan harus berurutan)\n')
     N=int(N)
     if (N<=1):
         N=input('Jumlah sudut harus diatas 1\n')
@@ -130,6 +130,37 @@ def Polygon():
         x+=1
         x=(x%9)
         glColor3fv(colors[x])
+        glVertex3fv(vertex)
+    glEnd()
+
+def setCircle():
+    global verticies
+    r=input('Masukkan radius\n')
+    r=int(r)
+    sudut=360
+    while (sudut>0):
+        p=(np.cos(np.deg2rad(sudut))*r,np.sin(np.deg2rad(sudut))*r,0)
+        verticies.append(p)
+        sudut-=1
+    sisi()
+    Circle()
+    global overticies
+    overticies=verticies
+
+
+def Circle():
+    glBegin(GL_LINES)
+    for edge in edges:
+        for vertex in edge:
+            glVertex3fv(verticies[vertex])
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    x=0
+    for vertex in verticies:
+        x+=1
+        y=((x//40)%9)
+        glColor3fv(colors[y])
         glVertex3fv(vertex)
     glEnd()
 
@@ -198,6 +229,8 @@ def refresh():
         Triangle()
     elif (shape==3):
         Square()
+    elif (shape==4):
+        Circle()
     pygame.display.flip()
     clock.tick(60)
 
@@ -206,13 +239,12 @@ def animate(nv):
     a=np.array(nv)
     b=np.array(verticies)
     delta=np.divide(np.subtract(a,b),100)
-    print(delta)
-    N=60
+    N=100
     while (N>0):
         verticies=np.add(verticies,delta)
         refresh()
         gamecontrol()
-        pygame.time.wait(50)
+        pygame.time.wait(10)
         N-=1
 
 def animaterotate(sudut,P2):
@@ -222,7 +254,6 @@ def animaterotate(sudut,P2):
     while (N>0):
         nverticies=[]
         for vertex in verticies:
-            print(N)
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
             v=Rotate2(list(vx),delta,P2)
             x=v.tolist()
@@ -232,7 +263,6 @@ def animaterotate(sudut,P2):
         gamecontrol()
         pygame.time.wait(50)
         N-=1
-        print(verticies)
 
 def operate(opr):
     if (opr=='1'):
@@ -247,7 +277,6 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
     elif (opr=='2'):
         k=input('Masukkan k:\n')
         k=int(k)
@@ -258,7 +287,6 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
     elif (opr=='3'):
         sudut=input('Masukkan sudut perputaran:\n')
         sudut=int(sudut)
@@ -275,10 +303,10 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
     elif(opr=='5'):
         sumbu=input('Masukkan sumbu:\n')
         k=input('Masukkan k:\n')
+        k=int(k)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -286,10 +314,10 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
     elif(opr=='6'):
         sumbu=input('Masukkan sumbu:\n')
         k=input('Masukkan k:\n')
+        k=int(k)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -297,9 +325,9 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
     elif(opr=='7'):
         nverticies=overticies
+        print(nverticies)
         animate(nverticies)
     else:
         print('Input salah')
@@ -313,7 +341,7 @@ def main():
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-    shape=input('Pilih bentuk:\n1. Polygon\n2. Segitiga\n3. Segiempat\n')
+    shape=input('Pilih bentuk:\n1. Polygon\n2. Segitiga\n3. Segiempat\n4. Lingkaran\n')
     shape=int(shape)
     if (shape==1):
         setPolygon()
@@ -321,6 +349,8 @@ def main():
         setTriangle()
     elif (shape==3):
         setSquare()
+    elif (shape==4):
+        setCircle()
     else:
         print('Input salah')
 
