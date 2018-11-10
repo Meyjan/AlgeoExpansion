@@ -209,15 +209,15 @@ def Shear2(P, sumbu, k):
 # Shear 3 dimenasi
 def Shear3(P, sumbu, k1, k2):
     if (sumbu == 'x') or (sumbu == 'X'):
-        MTrans = np.array([[1, 0, 0], [k1, 1, 0],[k2, 0, 1]])
+        MTrans = np.array([[1, k1, k2], [0, 1, 0],[0, 0, 1]])
         P = np.dot(MTrans, P)
         return (P)
     elif (sumbu == 'y') or (sumbu == 'Y'):
-        MTrans = np.array([[1, k1, 0], [0, 1, 0], [0, k2, 1]])
+        MTrans = np.array([[1, 0, 0], [k1, 1, k2], [0, 0, 1]])
         P = np.dot(MTrans, P)
         return (P)
     elif (sumbu == 'z') or (sumbu == 'Z'):
-        MTrans = np.array([[1, 0, k1], [0, 1, k2], [0, 0, 1]])
+        MTrans = np.array([[1, 0, 0], [0, 1, 0], [k1, k2, 1]])
         P = np.dot(MTrans, P)
         return (P)
     else:
