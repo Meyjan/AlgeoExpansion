@@ -358,8 +358,23 @@ def operate(opr):
             nverticies.append(x)
         animate(nverticies)
     elif(opr=='7'):
+        a=input('Masukkan a:\n')
+        b=input('Masukkan b:\n')
+        c=input('Masukkan c:\n')
+        d=input('Masukkan d:\n')
+        a=float(a)
+        b=float(b)
+        c=float(c)
+        d=float(d)
+        nverticies=[]
+        for vertex in verticies:
+            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+            v=Custom2(list(vx),a,b,c,d)
+            x=v.tolist()
+            nverticies.append(x)
+        animate(nverticies)
+    elif(opr=='8'):
         nverticies=overticies
-        print(nverticies)
         animate(nverticies)
     else:
         print('Input salah')
@@ -384,7 +399,7 @@ def main():
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     glTranslatef(0.0,0.0, -5)
 
-    op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Reset\n'
+    op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n8. Reset\n'
 
     while True:
         for event in pygame.event.get():
