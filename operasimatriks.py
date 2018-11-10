@@ -1,7 +1,5 @@
 import numpy as np
 
-#Ferdy tae
-
 # Represents float
 def RepresentFloat(s):
     try:
@@ -48,7 +46,7 @@ def Dilate2(P, k):
     return(P)
 
 # Dilatasi 3 dimensi
-def Dilate2(P, k):
+def Dilate3(P, k):
     MTrans = np.array([[k, 0, 0], [0, k, 0], [0, 0, k]])
     P = np.dot(MTrans, P)
     return(P)
@@ -57,30 +55,35 @@ def Dilate2(P, k):
 def Rotate2(P, sudut, P2):
     MTrans = np.array([[np.cos(np.deg2rad(sudut)), np.sin(np.deg2rad((-1)*sudut)), 0], [np.sin(np.deg2rad(sudut)), np.cos(np.deg2rad(sudut)), 0], [0, 0, 1]])
     P = np.add((np.dot(MTrans, np.subtract(P,P2))), P2)
+    P = np.round(P, 2)
     return(P)
 
 # Rotasi 3 dimensi
-def Rotate3(P, sudut, P2, sumbu):
+def Rotate3(P, sudut, sumbu):
+    P2 = np.array([0,0,0])
     a = np.cos(np.deg2rad(sudut))
     b = np.sin(np.deg2rad(sudut))
+    # Rotasi terhadap sumbu
     if (sumbu == 'z') or (sumbu == 'Z'):
         MTrans = np.array([[a, b*(-1), 0], [b, a, 0], [0, 0, 1]])
         P = np.add((np.dot(MTrans, np.subtract(P,P2))), P2)
-        return(P)
     elif (sumbu == 'x') or (sumbu == 'X'):
         MTrans = np.array([[1, 0, 0], [0, a, b*(-1)], [0, b, a]])
         P = np.add((np.dot(MTrans, np.subtract(P,P2))), P2)
-        return(P)
     elif (sumbu == 'y') or (sumbu == 'Y'):
-        MTrans = np.array([[b, 0, a], [0, 1, 0], [b*(-1), a]])
+        MTrans = np.array([[a, 0, b], [0, 1, 0], [b*(-1), 0, a]])
         P = np.add((np.dot(MTrans, np.subtract(P,P2))), P2)
-        return(P)
+    # Rotasi terhadap garis
+    # Sumbu dibuat dalam bentuk parametrik seperti (x,1,)
     else:
-        print ("Input tidak valid")
-        return(P)
+        print('Input tidak dikenal')
+
+    P = np.round(P, 2)
+    return (P)
 
 # Refleksi 2 dimensi
 def Reflect2(P, param):
+    # Refleksi terhadap sumbu
     if (param == 'x') or (param == 'X'):
         MTrans = np.array([[1, 0, 0],[0, -1, 0], [0, 0, 1]])
         P = np.dot(MTrans, P)
@@ -89,6 +92,7 @@ def Reflect2(P, param):
         MTrans = np.array([[-1, 0, 0],[0, 1, 0], [0, 0, 1]])
         P = np.dot(MTrans, P)
         return(P)
+    # Refleksi terhadap garis
     elif (param == 'y=x') or (param == 'Y=X'):
         MTrans = np.array([[0, 1, 0],[1, 0, 0], [0, 0, 1]])
         P = np.dot(MTrans, P)
@@ -97,6 +101,7 @@ def Reflect2(P, param):
         MTrans = np.array([[0, -1, 0],[-1, 0, 0], [0, 0, 1]])
         P = np.dot(MTrans, P)
         return(P)
+    # Refleksi terhadap titik
     else:
         param = param[1:-1]
         point = np.array([float(n) for n in param.split(',')])
@@ -106,6 +111,7 @@ def Reflect2(P, param):
 
 # Refleksi 3 dimenasi
 def Reflect3(P, param):
+    # Refleksi terhadap bidang
     if (param == 'xz') or (param == 'XZ'):
         MTrans = np.array([[1, 0, 0],[0, -1, 0], [0, 0, 1]])
         P = np.dot(MTrans, P)
@@ -118,6 +124,68 @@ def Reflect3(P, param):
         MTrans = np.array([[1, 0, 0],[0, 1, 0], [0, 0, -1]])
         P = np.dot(MTrans, P)
         return(P)
+    # Refleksi terhadap sumbu
+    elif (param == 'x') or (param == 'X'):
+        MTrans = np.array([[1, 0, 0],[0, -1, 0], [0, 0, -1]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'y') or (param == 'Y'):
+        MTrans = np.array([[-1, 0, 0],[0, 1, 0], [0, 0, -1]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'z') or (param == 'Z'):
+        MTrans = np.array([[-1, 0, 0],[0, -1, 0], [0, 0, 1]])
+        P = np.dot(MTrans, P)
+        return(P)
+    # Refleksi terhadap bidang lain
+    elif (param == 'y=x') or (param == 'Y=X'):
+        MTrans = np.array([[0, 1, 0],[1, 0, 0], [0, 0, 1]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'y=-x') or (param == 'Y=-X'):
+        MTrans = np.array([[0, -1, 0],[-1, 0, 0], [0, 0, 1]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'y=z') or (param == 'Y=Z'):
+        MTrans = np.array([[1, 0, 0],[0, 0, 1], [0, 1, 0]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'y=-z') or (param == 'Y=-Z'):
+        MTrans = np.array([[1, 0, 0],[0, 0, -1], [0, -1, 0]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'x=z') or (param == 'X=Z'):
+        MTrans = np.array([[0, 0, 1],[0, 1, 0], [1, 0, 0]])
+        P = np.dot(MTrans, P)
+        return(P)
+    elif (param == 'x=-z') or (param == 'X=-Z'):
+        MTrans = np.array([[0, 0, -1],[0, 1, 0], [-1, 0, 0]])
+        P = np.dot(MTrans, P)
+        return(P)
+    # Refleksi terhadap garis
+    elif (param == 'x=y=z') or (param == 'X=Y=Z'):
+        x = (P[0]+P[1]+P[2])/3
+        print (x)
+        P2 = np.array([(x-P[0]), (x-P[1]), (x-P[2])])
+        print (P2)
+        P = np.add(P, np.dot(P2, 2))
+        return (P)
+    elif (param == 'x=y=-z') or (param == 'X=Y=-Z'):
+        x = (P[0]+P[1]-P[2])/3
+        P2 = np.array([(x-P[0]), (x-P[1]), (-x-P[2])])
+        P = np.add(P, np.dot(P2, 2))
+        return (P)
+    elif (param == 'x=-y=z') or (param == 'X=-Y=Z'):
+        x = (P[0]-P[1]+P[2])/3
+        P2 = np.array([(x-P[0]), (-x-P[1]), (x-P[2])])
+        P = np.add(P, np.dot(P2, 2))
+        return (P)
+    elif (param == '-x=y=z') or (param == '-X=Y=Z'):
+        x = (-P[0]+P[1]+P[2])/3
+        P2 = np.array([(-x-P[0]), (x-P[1]), (x-P[2])])
+        P = np.add(P, np.dot(P2, 2))
+        return (P)
+    # Refleksi terhadap titik
     else:
         param = param[1:-1]
         point = np.array([float(n) for n in param.split(',')])
@@ -270,10 +338,8 @@ def main():
         # Cek rotasi 3 dimensi
         elif (c == 'Rotate3'):
             sudut = float(input('Masukkan sudut yang diputar : '))
-            print('Masukkan titik poros yang mau diputar!')
-            P3 = inputpoint3D()
             sumbu = input('Masukkan mau terhadap sumbu mana diputar : ')
-            P1 = Rotate3(P1, sudut, P3, sumbu)
+            P1 = Rotate3(P1, sudut, sumbu)
             print('Rotate3 P1 = ', P1)
 
         # Cek refleksi 2 dimensi
@@ -348,6 +414,5 @@ def main():
         c = input('Masukkan input perintah : ')
 
     print('Program done. Terminating...')
-
 
 main()
