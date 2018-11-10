@@ -8,6 +8,17 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+objects=[]
+
+class obj:
+    def __init__(self,verticies,overticies,edges,shape):
+        self.v=verticies
+        self.o=overticies
+        self.e=edges
+        self.s=shape
+
+idx=0
+
 verticies = []
 
 overticies=[]
@@ -54,8 +65,32 @@ def gamecontrol():
     pygame.display.flip()
     clock.tick(60)
 
+def addobject():
+    global verticies
+    global edges
+    global objects
+    global shape
+    global idx
+    verticies=[]
+    edges=[]
+    shape=input('Pilih bentuk:\n1. Polygon\n2. Segitiga\n3. Segiempat\n4. Lingkaran\n')
+    shape=int(shape)
+    if (shape==1):
+        setPolygon()
+    elif (shape==2):
+        setTriangle()
+    elif (shape==3):
+        setSquare()
+    elif (shape==4):
+        setCircle()
+    else:
+        print('Input salah')
+    ob=obj(verticies,overticies,edges,shape)
+    objects.append(ob)
+    idx=len(objects)-1
 
 def sisi():
+    global edges
     x=0
     y=1
     for s in verticies:
@@ -64,6 +99,15 @@ def sisi():
         x+=1
         y+=1
         y=(y%(len(verticies)))
+
+def highlight():
+    glBegin(GL_LINES)
+    for edge in edges:
+        for vertex in edge:
+            glColor3fv((1,1,1))
+            glVertex3fv(verticies[vertex])
+    glEnd()
+
 
 def setSquare():
     global verticies
@@ -87,12 +131,6 @@ def setSquare():
     overticies=verticies
 
 def Square():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd()
-
     glBegin(GL_QUADS)
     x=0
     for vertex in verticies:
@@ -118,12 +156,6 @@ def setPolygon():
     overticies=verticies
 
 def Polygon():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd()
-
     glBegin(GL_POLYGON)
     x=0
     for vertex in verticies:
@@ -136,7 +168,7 @@ def Polygon():
 def setCircle():
     global verticies
     r=input('Masukkan radius\n')
-    r=int(r)
+    r=float(r)
     sudut=360
     while (sudut>0):
         p=(np.cos(np.deg2rad(sudut))*r,np.sin(np.deg2rad(sudut))*r,0)
@@ -147,14 +179,7 @@ def setCircle():
     global overticies
     overticies=verticies
 
-
 def Circle():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd()
-
     glBegin(GL_POLYGON)
     x=0
     for vertex in verticies:
@@ -186,12 +211,6 @@ def setTriangle():
     overticies=verticies
 
 def Triangle():
-    glBegin(GL_LINES)
-    for edge in edges:
-        for vertex in edge:
-            glVertex3fv(verticies[vertex])
-    glEnd()
-
     glBegin(GL_TRIANGLES)
     x=0
     for vertex in verticies:
@@ -221,27 +240,38 @@ def inputpoint2d():
     return tuple(inList)
 
 def refresh():
+    global verticies
+    global edges
+    global shape
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    for ob in objects:
+        verticies=ob.v
+        edges=ob.e
+        shape=ob.s
+        if (shape==1):
+            Polygon()
+        elif (shape==2):
+            Triangle()
+        elif (shape==3):
+            Square()
+        elif (shape==4):
+            Circle()
+        if(ob==objects[idx]):
+            highlight()
     Cartesius()
-    if (shape==1):
-        Polygon()
-    elif (shape==2):
-        Triangle()
-    elif (shape==3):
-        Square()
-    elif (shape==4):
-        Circle()
     pygame.display.flip()
     clock.tick(60)
 
 def animate(nv):
     global verticies
+    global objects
     a=np.array(nv)
     b=np.array(verticies)
     delta=np.divide(np.subtract(a,b),100)
     N=100
     while (N>0):
         verticies=np.add(verticies,delta)
+        objects[idx].v=verticies
         refresh()
         gamecontrol()
         pygame.time.wait(10)
@@ -249,6 +279,7 @@ def animate(nv):
 
 def animaterotate(sudut,P2):
     global verticies
+    global objects
     delta=sudut/100
     N=100
     while (N>0):
@@ -259,6 +290,7 @@ def animaterotate(sudut,P2):
             x=v.tolist()
             nverticies.append(x)
         verticies=nverticies
+        objects[idx].v=verticies
         refresh()
         gamecontrol()
         pygame.time.wait(50)
@@ -268,8 +300,8 @@ def operate(opr):
     if (opr=='1'):
         dx=input('Masukkan dx:\n')
         dy=input('Masukkan dy:\n')
-        dx=int(dx)
-        dy=int(dy)
+        dx=float(dx)
+        dy=float(dy)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -279,7 +311,7 @@ def operate(opr):
         animate(nverticies)
     elif (opr=='2'):
         k=input('Masukkan k:\n')
-        k=int(k)
+        k=float(k)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -289,7 +321,7 @@ def operate(opr):
         animate(nverticies)
     elif (opr=='3'):
         sudut=input('Masukkan sudut perputaran:\n')
-        sudut=int(sudut)
+        sudut=float(sudut)
         print('Masukkan titik putar\n')
         P1=inputpoint2d()
         P2=createpoint3D(P1[0],P1[1],P1[2])
@@ -306,7 +338,7 @@ def operate(opr):
     elif(opr=='5'):
         sumbu=input('Masukkan sumbu:\n')
         k=input('Masukkan k:\n')
-        k=int(k)
+        k=float(k)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -317,7 +349,7 @@ def operate(opr):
     elif(opr=='6'):
         sumbu=input('Masukkan sumbu:\n')
         k=input('Masukkan k:\n')
-        k=int(k)
+        k=float(k)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -335,24 +367,15 @@ def operate(opr):
 def main():
     pygame.init()
 
+    global objects
     global shape
+    global idx
 
     display = (800,600)
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
-    shape=input('Pilih bentuk:\n1. Polygon\n2. Segitiga\n3. Segiempat\n4. Lingkaran\n')
-    shape=int(shape)
-    if (shape==1):
-        setPolygon()
-    elif (shape==2):
-        setTriangle()
-    elif (shape==3):
-        setSquare()
-    elif (shape==4):
-        setCircle()
-    else:
-        print('Input salah')
+    addobject()
 
     Cartesius()
 
@@ -371,6 +394,10 @@ def main():
             if event.type == KEYDOWN and event.key == K_r:
                 operasi=input(op)
                 operate(operasi)
+            if event.type == KEYDOWN and event.key == K_a:
+                addobject()
+            if event.type == KEYDOWN and event.key == K_s:
+                idx=int(input('Pilih object (0 sampai '+str(len(objects)-1)+')\n'))
             if event.type == KEYDOWN and event.key == K_RIGHT:
                 glTranslatef(1,0.0,0.0)
             if event.type == KEYDOWN and event.key == K_LEFT:
