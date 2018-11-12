@@ -412,19 +412,19 @@ def main():
             if event.type == KEYDOWN and event.key == K_a:
                 addobject()
             if event.type == KEYDOWN and event.key == K_s:
-                idx=int(input('Pilih object (0 sampai '+str(len(objects)-1)+')\n'))
+                idx+=idx
             if event.type == KEYDOWN and event.key == K_RIGHT:
-                glTranslatef(1,0.0,0.0)
+                glTranslatef(0.2,0.0,0.0)
             if event.type == KEYDOWN and event.key == K_LEFT:
-                glTranslatef(-1,0.0,0)
+                glTranslatef(-0.2,0.0,0)
             if event.type == KEYDOWN and event.key == K_UP:
-                glTranslatef(0.0,1,0)
+                glTranslatef(0.0,0.2,0)
             if event.type == KEYDOWN and event.key == K_DOWN:
-                glTranslatef(0.0,-1,0)
+                glTranslatef(0.0,-0.2,0)
             if event.type == KEYDOWN and event.key == K_m:
-                glTranslatef(0.0,0,1)
+                glTranslatef(0.0,0,0.2)
             if event.type == KEYDOWN and event.key == K_n:
-                glTranslatef(0.0,0,-1)
+                glTranslatef(0.0,0,-0.2)
         refresh()
 
 main()

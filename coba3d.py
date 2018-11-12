@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 from operasimatriks import *
 
@@ -7,6 +8,8 @@ from pygame.locals import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
+
+clock = pygame.time.Clock()
 
 suduts = [
     (1, -1, -1),
@@ -38,13 +41,13 @@ edges = [
     ]
 
 colors = [
-    (1,0,0),
+    (1,1,0),
     (0,1,0),
     (0,0,1),
     (0,1,0),
     (1,1,1),
     (0,1,1),
-    (1,0,0),
+    (1,1,0),
     (0,1,0),
     (0,0,1),
     (0,1,0),
@@ -60,6 +63,9 @@ surfaces = (
     (1,5,7,2),
     (4,0,3,6),
     )
+
+deltaAngle = 0.0
+xOrigin = -1
 
 def gamecontrol():
     for event in pygame.event.get():
@@ -110,13 +116,13 @@ def Cube():
         for vertex in surface:
             x+=1
             glColor3fv(colors[x])
-            glVertex3fv(suduts[vertex])
+            glVertex3fv(verticies[vertex])
     glEnd()
 
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
-            glVertex3fv(suduts[vertex])
+            glVertex3fv(verticies[vertex])
     glEnd()
 
 
@@ -136,8 +142,8 @@ def animate(nv):
     a=np.array(nv)
     b=np.array(verticies)
     delta=np.divide(np.subtract(a,b),100)
-    print(delta)
-    N=60
+
+    N=100
     while (N>0):
         verticies=np.add(verticies,delta)
         refresh()
@@ -145,7 +151,7 @@ def animate(nv):
         pygame.time.wait(50)
         N-=1
 
-def animaterotate(sudut,P2,sumbu):
+def animaterotate(sudut,sumbu):
     global verticies
     delta=sudut/100
     N=100
@@ -154,7 +160,7 @@ def animaterotate(sudut,P2,sumbu):
         for vertex in verticies:
             print(N)
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Rotate3(list(vx),delta,P2,sumbu)
+            v=Rotate3(list(vx),delta,sumbu)
             x=v.tolist()
             nverticies.append(x)
         verticies=nverticies
@@ -162,7 +168,7 @@ def animaterotate(sudut,P2,sumbu):
         gamecontrol()
         pygame.time.wait(50)
         N-=1
-        print(verticies)
+
 
 def operate(opr):
     if (opr=='1'):
@@ -179,7 +185,7 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
+
 
     elif (opr=='2'):
         k=input('Masukkan k:\n')
@@ -191,17 +197,14 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
+
 
     elif (opr=='3'):
         sudut=input('Masukkan sudut perputaran:\n')
         sudut=int(sudut)
-        print('Masukkan titik putar\n')
-        P1=inputpoint3d()
-        P2=createpoint3D(P1[0],P1[1],P1[2])
         sumbu=input('Masukkan sumbu putar\n')
-        
-        animaterotate(sudut,P2)
+
+        animaterotate(sudut,sumbu)
 
     elif(opr=='4'):
         param=input('Masukkan parameter:\n')
@@ -212,12 +215,14 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
+
 
     elif(opr=='5'):
         sumbu=input('Masukkan sumbu:\n')
         k1=input('Masukkan k1:\n')
+        k1=float(k1)
         k2=input('Masukkan k2:\n')
+        k2=float(k2)
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -225,7 +230,7 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
+
 
     elif(opr=='6'):
         sumbu=input('Masukkan sumbu:\n')
@@ -237,9 +242,36 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
-        print(nverticies)
+
 
     elif(opr=='7'):
+        a=input('Masukkan a:\n')
+        b=input('Masukkan b:\n')
+        c=input('Masukkan c:\n')
+        d=input('Masukkan d:\n')
+        e=input('Masukkan e:\n')
+        f=input('Masukkan f:\n')
+        g=input('Masukkan g:\n')
+        h=input('Masukkan h:\n')
+        i=input('Masukkan i:\n')
+        a=float(a)
+        b=float(b)
+        c=float(c)
+        d=float(d)
+        e=float(e)
+        f=float(f)
+        g=float(g)
+        h=float(h)
+        i=float(i)
+        nverticies=[]
+        for vertex in verticies:
+            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+            v=Custom3(list(vx),a,b,c,d,e,f,g,h,i)
+            x=v.tolist()
+            nverticies.append(x)
+        animate(nverticies)
+
+    elif(opr=='8'):
         nverticies=overticies
         animate(nverticies)
 
@@ -256,11 +288,19 @@ def inputpoint3d():
     return tuple(inList)
 
 def refresh():
+
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
     Cartesius()
     Cube()
+
     pygame.display.flip()
     clock.tick(60)
+
+
+def gerak():
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    angle = (180 / math.pi) * -math.atan2(mouse_y, mouse_x)
+
 
 
 def main():
@@ -271,20 +311,26 @@ def main():
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
     setCube()
     Cartesius()
-    
+    gerak()
+
+
+
     pygame.display.set_caption('Algeo Yeah!!!')
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
 
     glTranslatef(0.0,0.0, -5)
 
-    op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Reset\n'
+    op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n8.Reset'
 
     while True:
         for event in pygame.event.get():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
                 pygame.quit()
                 quit()
+            if event.type == KEYDOWN and event.key == K_r:
+                operasi=input(op)
+                operate(operasi)
             if event.type == KEYDOWN and event.key == K_RIGHT:
                 glTranslatef(1,0.0,0.0)
             if event.type == KEYDOWN and event.key == K_LEFT:
@@ -298,7 +344,7 @@ def main():
             if event.type == KEYDOWN and event.key == K_n:
                 glTranslatef(0.0,0,-1)
         refresh()
-  
+
 
 
 main()

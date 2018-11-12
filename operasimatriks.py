@@ -49,7 +49,7 @@ def Dilate2(P, k):
     return(P)
 
 # Dilatasi 3 dimensi
-def Dilate2(P, k):
+def Dilate3(P, k):
     MTrans = np.array([[k, 0, 0], [0, k, 0], [0, 0, k]])
     P = np.dot(MTrans, P)
     return(P)
@@ -61,7 +61,8 @@ def Rotate2(P, sudut, P2):
     return(P)
 
 # Rotasi 3 dimensi
-def Rotate3(P, sudut, P2, sumbu):
+def Rotate3(P, sudut, sumbu):
+    P2 = np.array([0,0,0])
     a = np.cos(np.deg2rad(sudut))
     b = np.sin(np.deg2rad(sudut))
     if (sumbu == 'z') or (sumbu == 'Z'):
