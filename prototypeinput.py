@@ -243,7 +243,7 @@ def refresh():
     global verticies
     global edges
     global shape
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     for ob in objects:
         verticies=ob.v
         edges=ob.e
@@ -373,7 +373,102 @@ def operate(opr):
             x=v.tolist()
             nverticies.append(x)
         animate(nverticies)
+
     elif(opr=='8'):
+        n = int(input('Masukkan berapa kali multi?'))
+        print('Multi ', n, ' kali START')
+        nverticies=[]
+        mverticies=verticies
+        while (n>0):
+            print ('Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n')
+            opr = input('Masukkan operan')
+            if (opr=='1'):
+                dx=input('Masukkan dx:\n')
+                dy=input('Masukkan dy:\n')
+                dx=float(dx)
+                dy=float(dy)
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Translate2(list(vx),dx,dy)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            elif (opr=='2'):
+                k=input('Masukkan k:\n')
+                k=float(k)
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Dilate2(list(vx),k)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            elif (opr=='3'):
+                sudut=input('Masukkan sudut perputaran:\n')
+                sudut=float(sudut)
+                print('Masukkan titik putar\n')
+                P1=inputpoint2d()
+                P2=createpoint3D(P1[0],P1[1],P1[2])
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Rotate2(list(vx),delta,P2)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            elif(opr=='4'):
+                param=input('Masukkan parameter:\n')
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Reflect2(list(vx),param)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            elif(opr=='5'):
+                sumbu=input('Masukkan sumbu:\n')
+                k=input('Masukkan k:\n')
+                k=float(k)
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Shear2(list(vx),sumbu,k)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            elif(opr=='6'):
+                sumbu=input('Masukkan sumbu:\n')
+                k=input('Masukkan k:\n')
+                k=float(k)
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Stretch2(list(vx),sumbu,k)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            elif(opr=='7'):
+                a=input('Masukkan a:\n')
+                b=input('Masukkan b:\n')
+                c=input('Masukkan c:\n')
+                d=input('Masukkan d:\n')
+                a=float(a)
+                b=float(b)
+                c=float(c)
+                d=float(d)
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Custom2(list(vx),a,b,c,d)
+                    x=v.tolist()
+                    nverticies.append(x)
+                mverticies=nverticies
+            else:
+                print('Input salah')
+            n -= 1
+        animate(mverticies)
+    elif(opr=='9'):
         nverticies=overticies
         animate(nverticies)
     else:
@@ -388,18 +483,18 @@ def main():
 
     display = (800,600)
 
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
     addobject()
-
     Cartesius()
 
     pygame.display.set_caption('Algeo Yeah!!!')
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
     glTranslatef(0.0,0.0, -5)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
-    op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n8. Reset\n'
+    op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n8. Multi\n9. Reset\n'
 
     while True:
         for event in pygame.event.get():
