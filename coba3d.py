@@ -297,11 +297,6 @@ def refresh():
     clock.tick(60)
 
 
-def gerak():
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-    angle = (180 / math.pi) * -math.atan2(mouse_y, mouse_x)
-
-
 
 def main():
     pygame.init()
@@ -311,10 +306,7 @@ def main():
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
     setCube()
     Cartesius()
-    gerak()
-
-
-
+    
     pygame.display.set_caption('Algeo Yeah!!!')
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
