@@ -11,6 +11,7 @@ def RepresentFloat(s):
 # Create point
 def createpoint2D(a, b):
     point = np.array([a, b])
+    point = np.append(point, [0])
     return point
 def createpoint3D(a, b, c):
     point = np.array([a, b, c])
