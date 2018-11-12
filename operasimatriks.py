@@ -284,7 +284,7 @@ def Custom3(P, a, b, c, d, e, f, g, h, i):
 # Copy titik-titik di program utama agar tinggal dipanggil lagi nanti
 
 # Tester
-def main():
+'''def main():
     # Cek input
     i = int(input('2D or 3D? {2/3}: '))
     while ((i != 2) and (i != 3)):
@@ -416,4 +416,4 @@ def main():
 
     print('Program done. Terminating...')
 
-main()
+main()'''
