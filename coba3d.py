@@ -148,7 +148,7 @@ def animate(nv):
         pygame.time.wait(50)
         N-=1
 
-def animaterotate(sudut,sumbu):
+def animaterotate(sudut,P2,sumbu):
     global verticies
     delta=sudut/100
     N=100
@@ -156,7 +156,7 @@ def animaterotate(sudut,sumbu):
         nverticies=[]
         for vertex in verticies:
             vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Rotate3(list(vx),delta,sumbu)
+            v=Rotate3(list(vx),delta,P2,sumbu)
             x=v.tolist()
             nverticies.append(x)
         verticies=nverticies
@@ -198,8 +198,12 @@ def operate(opr):
     elif (opr=='3'):
         sudut=input('Masukkan sudut perputaran:\n')
         sudut=int(sudut)
+        print('Masukkan titik putar (x,y,z): \n')
+        P1=inputpoint3d()
+        P2=createpoint3D(P1[0],P1[1],P1[2])
         sumbu=input('Masukkan sumbu putar\n')
-        animaterotate(sudut,sumbu)
+
+        animaterotate(sudut,P2,sumbu)
 
     elif(opr=='4'):
         param=input('Masukkan parameter:\n')
@@ -271,10 +275,13 @@ def operate(opr):
         print('Multi ', n, ' kali START')
         nverticies=[]
         mverticies=verticies
+        while (n>0):
+            print ('Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Multi\n')
+            opr = input('Masukkan operan')
             if (opr=='1'):
                 dx=input('Masukkan dx:\n')
                 dy=input('Masukkan dy:\n')
-                dz=input('Masukkan dz:\n')
+                dz=input('Masukkan dz:\n') 
                 dx=int(dx)
                 dy=int(dy)
                 dz=int(dz)
@@ -302,16 +309,19 @@ def operate(opr):
             elif (opr=='3'):
                 sudut=input('Masukkan sudut perputaran:\n')
                 sudut=int(sudut)
+                print('Masukkan titik putar (x,y,z): \n')
+                P1=inputpoint3d()
+                P2=createpoint3D(P1[0],P1[1],P1[2])
                 sumbu=input('Masukkan sumbu putar\n')
 
                 nverticies=[]
                 for vertex in mverticies:
                     vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-                    v=Rotate3(list(vx),delta,sumbu)
+                    v=Rotate3(list(vx),delta,P2,sumbu)
                     x=v.tolist()
                     nverticies.append(x)
                 mverticies=nverticies
-       
+        
 
             elif(opr=='4'):
                 param=input('Masukkan parameter:\n')
@@ -321,7 +331,7 @@ def operate(opr):
                     v=Reflect3(list(vx),param)
                     x=v.tolist()
                 nverticies.append(x)
-        
+            
 
             elif(opr=='5'):
                 sumbu=input('Masukkan sumbu:\n')
@@ -335,7 +345,7 @@ def operate(opr):
                     v=Shear3(list(vx),sumbu,k1,k2)
                     x=v.tolist()
                 nverticies.append(x)
-        
+            
 
             elif(opr=='6'):
                 sumbu=input('Masukkan sumbu:\n')
@@ -440,7 +450,5 @@ def main():
             if event.type == KEYDOWN and event.key == K_n:
                 glTranslatef(0.0,0,-1)
         refresh()
-
-
 
 main()
