@@ -60,8 +60,8 @@ def Rotate2(P, sudut, P2):
     return(P)
 
 # Rotasi 3 dimensi
-def Rotate3(P, sudut, sumbu):
-    P2 = np.array([0,0,0])
+def Rotate3(P, sudut, P3, sumbu):
+    P2 = np.array([P3[0],P3[1],P3[2]])
     a = np.cos(np.deg2rad(sudut))
     b = np.sin(np.deg2rad(sudut))
     # Rotasi terhadap sumbu
@@ -166,9 +166,7 @@ def Reflect3(P, param):
     # Refleksi terhadap garis
     elif (param == 'x=y=z') or (param == 'X=Y=Z'):
         x = (P[0]+P[1]+P[2])/3
-        print (x)
         P2 = np.array([(x-P[0]), (x-P[1]), (x-P[2])])
-        print (P2)
         P = np.add(P, np.dot(P2, 2))
         return (P)
     elif (param == 'x=y=-z') or (param == 'X=Y=-Z'):
@@ -284,7 +282,7 @@ def Custom3(P, a, b, c, d, e, f, g, h, i):
 # Copy titik-titik di program utama agar tinggal dipanggil lagi nanti
 
 # Tester
-def main():
+'''def main():
     # Cek input
     i = int(input('2D or 3D? {2/3}: '))
     while ((i != 2) and (i != 3)):
@@ -416,4 +414,4 @@ def main():
 
     print('Program done. Terminating...')
 
-main()
+main()'''
