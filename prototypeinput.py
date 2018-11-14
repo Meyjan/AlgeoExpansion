@@ -230,14 +230,24 @@ def Cartesius():
     glEnd()
 
 def inputpoint2d():
-    instr = input('Enter a point (x,y): ')
-    inList = [float(n) for n in instr.split(',')]
-    while (len(inList)>2):
-        print('Input harus (x,y)')
+    valid=False
+    TruList=[]
+    while (not(valid)) or (not(len(TruList) == 2)):
+        TruList=[]
         instr = input('Enter a point (x,y): ')
-        inList = [float(n) for n in instr.split(',')]
-    inList.append(0)
-    return tuple(inList)
+        inList = [n for n in instr.split(',')]
+        for n in inList:
+            valid=RepresentFloat(n)
+            if (not(valid)):
+                print('Input Salah!\n')
+                break
+            else:
+                TruList.append(float(n))
+        if (not(len(TruList) == 2)):
+            print('Input harus x,y\n')
+    TruList.append(0)
+    print(TruList)
+    return tuple(TruList)
 
 def refresh():
     global verticies
@@ -285,10 +295,11 @@ def animaterotate(sudut,P2):
     while (N>0):
         nverticies=[]
         for vertex in verticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+            vx=createpoint2D(vertex[0],vertex[1])
             v=Rotate2(list(vx),delta,P2)
             x=v.tolist()
             nverticies.append(x)
+        print(nverticies)
         verticies=nverticies
         objects[idx].v=verticies
         refresh()
@@ -506,7 +517,7 @@ def main():
                 operate(operasi)
             if event.type == KEYDOWN and event.key == K_a:
                 addobject()
-            if event.type == KEYDOWN and event.key == K_s:
+            if event.type == KEYDOWN and event.key == K_c:
                 idx+=idx
             if event.type == KEYDOWN and event.key == K_RIGHT:
                 glTranslatef(0.2,0.0,0.0)
