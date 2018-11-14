@@ -56,7 +56,6 @@ def Dilate3(P, k):
 def Rotate2(P, sudut, P2):
     MTrans = np.array([[np.cos(np.deg2rad(sudut)), np.sin(np.deg2rad((-1)*sudut)), 0], [np.sin(np.deg2rad(sudut)), np.cos(np.deg2rad(sudut)), 0], [0, 0, 1]])
     P = np.add((np.dot(MTrans, np.subtract(P,P2))), P2)
-    P = np.round(P, 2)
     return(P)
 
 # Rotasi 3 dimensi
@@ -79,7 +78,6 @@ def Rotate3(P, sudut, P3, sumbu):
     else:
         print('Input tidak dikenal')
 
-    P = np.round(P, 2)
     return (P)
 
 # Refleksi 2 dimensi
