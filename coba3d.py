@@ -54,14 +54,14 @@ colors = [
     (0,1,1),
     ]
 
-surfaces = (
+surfaces = [
     (0,1,2,3),
     (3,2,7,6),
     (6,7,5,4),
     (4,5,1,0),
     (1,5,7,2),
     (4,0,3,6),
-    )
+    ]
 
 
 def gamecontrol():
@@ -125,11 +125,13 @@ def Cube():
 
 def Cartesius():
     glBegin(GL_LINES)
-    glColor3fv((1,1,1))
+    glColor3fv((1,0,1))
     glVertex3fv((0,-500,0))
     glVertex3fv((0,500,0))
+    glColor3fv((1,0,0))
     glVertex3fv((500,0,0))
     glVertex3fv((-500,0,0))
+    glColor3fv((0,0,1))
     glVertex3fv((0,0,500))
     glVertex3fv((0,0,-500))
     glEnd()
@@ -167,7 +169,7 @@ def animaterotate(sudut,P2,sumbu):
 
 
 def operate(opr):
-    if (opr=='1'):
+    if (opr=='1'): #translasi
         dx=input('Masukkan dx:\n')
         dy=input('Masukkan dy:\n')
         dz=input('Masukkan dz:\n')
@@ -183,7 +185,7 @@ def operate(opr):
         animate(nverticies)
 
 
-    elif (opr=='2'):
+    elif (opr=='2'): #dilasi
         k=input('Masukkan k:\n')
         k=int(k)
         nverticies=[]
@@ -195,7 +197,7 @@ def operate(opr):
         animate(nverticies)
 
 
-    elif (opr=='3'):
+    elif (opr=='3'): #rotasi
         sudut=input('Masukkan sudut perputaran:\n')
         sudut=int(sudut)
         print('Masukkan titik putar (x,y,z): \n')
@@ -205,7 +207,7 @@ def operate(opr):
 
         animaterotate(sudut,P2,sumbu)
 
-    elif(opr=='4'):
+    elif(opr=='4'): #refleksi
         param=input('Masukkan parameter:\n')
         nverticies=[]
         for vertex in verticies:
@@ -216,7 +218,7 @@ def operate(opr):
         animate(nverticies)
 
 
-    elif(opr=='5'):
+    elif(opr=='5'): #shear
         sumbu=input('Masukkan sumbu:\n')
         k1=input('Masukkan k1:\n')
         k1=float(k1)
@@ -231,7 +233,7 @@ def operate(opr):
         animate(nverticies)
 
 
-    elif(opr=='6'):
+    elif(opr=='6'): #stretch
         sumbu=input('Masukkan sumbu:\n')
         k=input('Masukkan k:\n')
         nverticies=[]
@@ -243,7 +245,7 @@ def operate(opr):
         animate(nverticies)
 
 
-    elif(opr=='7'):
+    elif(opr=='7'): #custom
         a=input('Masukkan a:\n')
         b=input('Masukkan b:\n')
         c=input('Masukkan c:\n')
@@ -270,7 +272,7 @@ def operate(opr):
             nverticies.append(x)
         animate(nverticies)
 
-    elif(opr=='8'):
+    elif(opr=='8'): #multiple
         n = int(input('Masukkan berapa kali multi?'))
         print('Multi ', n, ' kali START')
         nverticies=[]
@@ -418,13 +420,14 @@ def main():
     display = (800,600)
 
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    setCube()
     Cartesius()
+    setCube()
     
     pygame.display.set_caption('Algeo Yeah!!!')
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
 
+    
     glTranslatef(0.0,0.0, -5)
 
     op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n8.Multi \n9.Reset\n'
@@ -450,5 +453,4 @@ def main():
             if event.type == KEYDOWN and event.key == K_n:
                 glTranslatef(0.0,0,-1)
         refresh()
-
 main()
