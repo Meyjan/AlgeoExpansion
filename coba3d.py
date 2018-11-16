@@ -169,35 +169,40 @@ def animaterotate(sudut,P2,sumbu):
 
 
 def operate(opr):
-    if (opr=='1'): #translasi
-        dx=input('Masukkan dx:\n')
-        dy=input('Masukkan dy:\n')
-        dz=input('Masukkan dz:\n')
-        dx=int(dx)
-        dy=int(dy)
-        dz=int(dz)
-        nverticies=[]
-        for vertex in mverticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Translate3(list(vx),dx,dy,dz)
-            x=v.tolist()
-            nverticies.append(x)
-        animate(nverticies)
+    print(opr)
+    valid = False
+    if (opr[0]=='translate'): #translasi
+        if(len(opr) == 4):
+            if (RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3])):
+                dx = float(opr[1])
+                dy = float(opr[2])
+                dz = float(opr[3])
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Translate3(list(vx),dx,dy,dz)
+                    x=v.tolist()
+                    nverticies.append(x)
+                animate(nverticies)
+                valid = True
 
 
-    elif (opr=='2'): #dilasi
-        k=input('Masukkan k:\n')
-        k=int(k)
-        nverticies=[]
-        for vertex in mverticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Dilate3(list(vx),k)
-            x=v.tolist()
-            nverticies.append(x)
-        animate(nverticies)
+    elif (opr[0]=='dilate'): #dilasi
+        if(len(opr) == 2):
+            if(RepresentFloat(opr[1])):
+                k = float(opr[1])
+                nverticies=[]
+                for vertex in mverticies:
+                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                    v=Dilate3(list(vx),k)
+                    x=v.tolist()
+                    nverticies.append(x)
+                animate(nverticies)
+                valid = True
 
 
-    elif (opr=='3'): #rotasi
+    elif (opr[0] =='rotate'): #rotasi
+        if(len(opr))
         sudut=input('Masukkan sudut perputaran:\n')
         sudut=int(sudut)
         print('Masukkan titik putar (x,y,z): \n')
@@ -207,169 +212,53 @@ def operate(opr):
 
         animaterotate(sudut,P2,sumbu)
 
-    elif(opr=='4'): #refleksi
-        param=input('Masukkan parameter:\n')
-        nverticies=[]
-        for vertex in verticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Reflect3(list(vx),param)
-            x=v.tolist()
-            nverticies.append(x)
-        animate(nverticies)
-
-
-    elif(opr=='5'): #shear
-        sumbu=input('Masukkan sumbu:\n')
-        k1=input('Masukkan k1:\n')
-        k1=float(k1)
-        k2=input('Masukkan k2:\n')
-        k2=float(k2)
-        nverticies=[]
-        for vertex in verticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Shear3(list(vx),sumbu,k1,k2)
-            x=v.tolist()
-            nverticies.append(x)
-        animate(nverticies)
-
-
-    elif(opr=='6'): #stretch
-        sumbu=input('Masukkan sumbu:\n')
-        k=input('Masukkan k:\n')
-        nverticies=[]
-        for vertex in verticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Stretch3(list(vx),sumbu,k)
-            x=v.tolist()
-            nverticies.append(x)
-        animate(nverticies)
-
-
-    elif(opr=='7'): #custom
-        a=input('Masukkan a:\n')
-        b=input('Masukkan b:\n')
-        c=input('Masukkan c:\n')
-        d=input('Masukkan d:\n')
-        e=input('Masukkan e:\n')
-        f=input('Masukkan f:\n')
-        g=input('Masukkan g:\n')
-        h=input('Masukkan h:\n')
-        i=input('Masukkan i:\n')
-        a=float(a)
-        b=float(b)
-        c=float(c)
-        d=float(d)
-        e=float(e)
-        f=float(f)
-        g=float(g)
-        h=float(h)
-        i=float(i)
-        nverticies=[]
-        for vertex in verticies:
-            vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-            v=Custom3(list(vx),a,b,c,d,e,f,g,h,i)
-            x=v.tolist()
-            nverticies.append(x)
-        animate(nverticies)
-
-    elif(opr=='8'): #multiple
-        n = int(input('Masukkan berapa kali multi?'))
-        print('Multi ', n, ' kali START')
-        nverticies=[]
-        mverticies=verticies
-        while (n>0):
-            print ('Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Multi\n')
-            opr = input('Masukkan operan')
-            if (opr=='1'):
-                dx=input('Masukkan dx:\n')
-                dy=input('Masukkan dy:\n')
-                dz=input('Masukkan dz:\n') 
-                dx=int(dx)
-                dy=int(dy)
-                dz=int(dz)
-                nverticies=[]
-                for vertex in mverticies:
-                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-                    v=Translate3(list(vx),dx,dy,dz)
-                    x=v.tolist()
-                    nverticies.append(x)
-                mverticies=nverticies
-
-
-            elif (opr=='2'):
-                k=input('Masukkan k:\n')
-                k=int(k)
-                nverticies=[]
-                for vertex in mverticies:
-                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-                    v=Dilate3(list(vx),k)
-                    x=v.tolist()
-                    nverticies.append(x)
-                mverticies=nverticies
-
-
-            elif (opr=='3'):
-                sudut=input('Masukkan sudut perputaran:\n')
-                sudut=int(sudut)
-                print('Masukkan titik putar (x,y,z): \n')
-                P1=inputpoint3d()
-                P2=createpoint3D(P1[0],P1[1],P1[2])
-                sumbu=input('Masukkan sumbu putar\n')
-
-                nverticies=[]
-                for vertex in mverticies:
-                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-                    v=Rotate3(list(vx),delta,P2,sumbu)
-                    x=v.tolist()
-                    nverticies.append(x)
-                mverticies=nverticies
-        
-
-            elif(opr=='4'):
-                param=input('Masukkan parameter:\n')
-                nverticies=[]
-                for vertex in mverticies:
-                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-                    v=Reflect3(list(vx),param)
-                    x=v.tolist()
+    elif(opr[0] =='reflect'): #refleksi
+        if(len(opr) == 2):
+            if(True)
+            param=input('Masukkan parameter:\n')
+            nverticies=[]
+            for vertex in verticies:
+                vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                v=Reflect3(list(vx),param)
+                x=v.tolist()
                 nverticies.append(x)
-            
+            animate(nverticies)
+            valid = True
 
-            elif(opr=='5'):
-                sumbu=input('Masukkan sumbu:\n')
-                k1=input('Masukkan k1:\n')
-                k1=float(k1)
-                k2=input('Masukkan k2:\n')
-                k2=float(k2)
+    elif(opr[0]=='shear'): #shear
+        if(len(opr) == 4):
+            if(RepresentFloat(opr[2]) and RepresentFloat(opr[3])):
+                sumbu = opr[1]
+                k1 = float(opr[2])
+                k2 = float(opr[3])
                 nverticies=[]
-                for vertex in mverticies:
+                for vertex in verticies:
                     vx=createpoint3D(vertex[0],vertex[1],vertex[2])
                     v=Shear3(list(vx),sumbu,k1,k2)
                     x=v.tolist()
-                nverticies.append(x)
-            
+                    nverticies.append(x)
+                animate(nverticies)
+                valid = True
 
-            elif(opr=='6'):
-                sumbu=input('Masukkan sumbu:\n')
-                k=input('Masukkan k:\n')
+
+    elif(opr[0]=='stretch'): #stretch
+       if(len(opr)==3):
+            if(RepresentFloat(opr[2])):
+                sumbu=opr[1]
+                k=float(opr[2])
                 nverticies=[]
-                for vertex in mverticies:
+                for vertex in verticies:
                     vx=createpoint3D(vertex[0],vertex[1],vertex[2])
-                    v=Stretch3(list(vx),sumbu,k)
+                    v=Stretch2(list(vx),sumbu,k)
                     x=v.tolist()
-                nverticies.append(x)
+                    nverticies.append(x)
+                animate(nverticies)
+                valid=True
 
 
-            elif(opr=='7'):
-                a=input('Masukkan a:\n')
-                b=input('Masukkan b:\n')
-                c=input('Masukkan c:\n')
-                d=input('Masukkan d:\n')
-                e=input('Masukkan e:\n')
-                f=input('Masukkan f:\n')
-                g=input('Masukkan g:\n')
-                h=input('Masukkan h:\n')
-                i=input('Masukkan i:\n')
+    elif(opr[0]=='custom'): #custom
+        if(len(opr) == 10):
+            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3]) and RepresentFloat(opr[4]) and RepresentFloat(opr[5]) and RepresentFloat(opr[6]) and RepresentFloat(opr[7]) and RepresentFloat(opr[8])):
                 a=float(a)
                 b=float(b)
                 c=float(c)
@@ -380,31 +269,163 @@ def operate(opr):
                 h=float(h)
                 i=float(i)
                 nverticies=[]
-                for vertex in mverticies:
+                for vertex in verticies:
                     vx=createpoint3D(vertex[0],vertex[1],vertex[2])
                     v=Custom3(list(vx),a,b,c,d,e,f,g,h,i)
                     x=v.tolist()
-                nverticies.append(x)
-            else:
-                print('Input salah')
-            n -= 1
-        animate(mverticies)
+                    nverticies.append(x)
+                animate(nverticies)
+                valid = True
 
-    elif(opr=='9'):
-        nverticies=overticies
+    elif(opr[0]=='multi'): #multiple
+        if(len(opr) == 2):
+            if(RepresentFloat(opr[1])):
+                n = opr[1]
+                print('Multi ', n, ' kali START')
+                nverticies=[]
+                mverticies=verticies
+                while (n>0):
+                    print ('Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Multi\n')
+                    oprx = input('Masukkan operan')
+                    opr = [n for n in oprx.split(' ')]
+                    if (opr[0]=='translate'): #translasi
+                        if(len(opr) == 4):
+                             if (RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3])):
+                            dx = float(opr[1])
+                            dy = float(opr[2])
+                            dz = float(opr[3])
+                            nverticies=[]
+                            for vertex in mverticies:
+                                vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                                v=Translate3(list(vx),dx,dy,dz)
+                                x=v.tolist()
+                                nverticies.append(x)
+                            animate(nverticies)
+                            valid = True
+
+                            
+
+                    elif (opr[0]=='dilate'): #dilasi
+                        if(len(opr) == 2):
+                            if(RepresentFloat(opr[1])):
+                                k = float(opr[1])
+                                nverticies=[]
+                                for vertex in mverticies:
+                                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                                    v=Dilate3(list(vx),k)
+                                    x=v.tolist()
+                                    nverticies.append(x)
+                                animate(nverticies)
+                                valid = True
+
+
+                    elif (opr[0] =='rotate'): #rotasi
+                        if(len(opr))
+                        sudut=input('Masukkan sudut perputaran:\n')
+                        sudut=int(sudut)
+                        print('Masukkan titik putar (x,y,z): \n')
+                        P1=inputpoint3d()
+                        P2=createpoint3D(P1[0],P1[1],P1[2])
+                        sumbu=input('Masukkan sumbu putar\n')
+
+                        animaterotate(sudut,P2,sumbu)
+
+                    elif(opr[0] =='reflect'): #refleksi
+                        if(len(opr) == 2):
+                            if(True)
+                            param=input('Masukkan parameter:\n')
+                            nverticies=[]
+                            for vertex in verticies:
+                                vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                                v=Reflect3(list(vx),param)
+                                x=v.tolist()
+                                nverticies.append(x)
+                            animate(nverticies)
+                            valid = True
+
+                    elif(opr[0]=='shear'): #shear
+                        if(len(opr) == 4):
+                            if(RepresentFloat(opr[2]) and RepresentFloat(opr[3])):
+                                sumbu = opr[1]
+                                k1 = float(opr[2])
+                                k2 = float(opr[3])
+                                nverticies=[]
+                                for vertex in verticies:
+                                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                                    v=Shear3(list(vx),sumbu,k1,k2)
+                                    x=v.tolist()
+                                    nverticies.append(x)
+                                animate(nverticies)
+                                valid = True
+
+
+                    elif(opr[0]=='stretch'): #stretch
+                    if(len(opr)==3):
+                            if(RepresentFloat(opr[2])):
+                                sumbu=opr[1]
+                                k=float(opr[2])
+                                nverticies=[]
+                                for vertex in verticies:
+                                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                                    v=Stretch2(list(vx),sumbu,k)
+                                    x=v.tolist()
+                                    nverticies.append(x)
+                                animate(nverticies)
+                                valid=True
+
+
+                    elif(opr[0]=='custom'): #custom
+                        if(len(opr) == 10):
+                            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3]) and RepresentFloat(opr[4]) and RepresentFloat(opr[5]) and RepresentFloat(opr[6]) and RepresentFloat(opr[7]) and RepresentFloat(opr[8])):
+                                a=float(a)
+                                b=float(b)
+                                c=float(c)
+                                d=float(d)
+                                e=float(e)
+                                f=float(f)
+                                g=float(g)
+                                h=float(h)
+                                i=float(i)
+                                nverticies=[]
+                                for vertex in verticies:
+                                    vx=createpoint3D(vertex[0],vertex[1],vertex[2])
+                                    v=Custom3(list(vx),a,b,c,d,e,f,g,h,i)
+                                    x=v.tolist()
+                                    nverticies.append(x)
+                                animate(nverticies)
+                                valid = True
+                    if(valid == False):
+                        print('Input salah')
+                    n -= 1
+                animate(mverticies)
+                valid = True
+    elif(opr[0] == 'reset'):
+        nverticies = overticies
         animate(nverticies)
-
-    else:
+        valid = True
+    if (valid == False):
         print('Input salah')
 
+                    
+
 def inputpoint3d():
-    instr = input('Enter a point (x,y,z): ')
-    inList = [float(n) for n in instr.split(',')]
-    while (len(inList)>3):
-        print('Input harus (x,y,z)')
+    valid = False
+    TruList = []
+    while(not(valid) or (not(len(TruList) == 3))
+        TruList = []
         instr = input('Enter a point (x,y,z): ')
         inList = [float(n) for n in instr.split(',')]
-    return tuple(inList)
+        for n inList:
+            valid = RepresentFloat(n)
+            if (not(valid)):
+                print('Input Salah!\n')
+                break
+            else:
+                TruList.append(float(n))
+        if (not(len(inList) == 3)) :
+            print('Input harus (x,y,z)\n')
+    TruList.append(0)
+    return tuple(TruList)
 
 def refresh():
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
@@ -429,9 +450,10 @@ def main():
 
     
     glTranslatef(0.0,0.0, -5)
+    gluLookAt(3.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 5.0, 0.0)
 
     op='Masukkan operasi:\n1. Translasi\n2. Dilatasi\n3. Rotasi\n4. Refleksi\n5. Shear\n6. Stretch\n7. Custom\n8.Multi \n9.Reset\n'
-
+    print('Menunggu input dari window pygame...\n r=operasi\n  m/n=zoom in/zoom out\n')
     while True:
         for event in pygame.event.get():
             if event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -439,7 +461,9 @@ def main():
                 quit()
             if event.type == KEYDOWN and event.key == K_r:
                 operasi=input(op)
+                operasi = [n for n in operasi.split(' ')]
                 operate(operasi)
+                print('Menunggu input dari window pygame...\n r=operasi\n  m/n=zoom in/zoom out\n')
             if event.type == KEYDOWN and event.key == K_RIGHT:
                 glTranslatef(1,0.0,0.0)
             if event.type == KEYDOWN and event.key == K_LEFT:
