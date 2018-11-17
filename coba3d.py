@@ -202,15 +202,14 @@ def operate(opr):
 
 
     elif (opr[0] =='rotate'): #rotasi
-        if(len(opr))
-        sudut=input('Masukkan sudut perputaran:\n')
-        sudut=int(sudut)
-        print('Masukkan titik putar (x,y,z): \n')
-        P1=inputpoint3d()
-        P2=createpoint3D(P1[0],P1[1],P1[2])
-        sumbu=input('Masukkan sumbu putar\n')
+        if(len(opr) == 6):
+            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3] and RepresentFloat(opr[4]))):
+            sudut= RepresentFloat(opr[1])
+            P1 = (float(opr[2]), float(opr[3]), float(opr[4]))
+            P2=createpoint3D(P1[0],P1[1],P1[2])
+            sumbu=opr([5])
 
-        animaterotate(sudut,P2,sumbu)
+            animaterotate(sudut,P2,sumbu)
 
     elif(opr[0] =='reflect'): #refleksi
         if(len(opr) == 2):
@@ -320,15 +319,14 @@ def operate(opr):
 
 
                     elif (opr[0] =='rotate'): #rotasi
-                        if(len(opr))
-                        sudut=input('Masukkan sudut perputaran:\n')
-                        sudut=int(sudut)
-                        print('Masukkan titik putar (x,y,z): \n')
-                        P1=inputpoint3d()
-                        P2=createpoint3D(P1[0],P1[1],P1[2])
-                        sumbu=input('Masukkan sumbu putar\n')
+                        if(len(opr) == 6):
+                            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3] and RepresentFloat(opr[4]))):
+                            sudut= RepresentFloat(opr[1])
+                            P1 = (float(opr[2]), float(opr[3]), float(opr[4]))
+                            P2=createpoint3D(P1[0],P1[1],P1[2])
+                            sumbu=opr[5]
 
-                        animaterotate(sudut,P2,sumbu)
+                            animaterotate(sudut,P2,sumbu)
 
                     elif(opr[0] =='reflect'): #refleksi
                         if(len(opr) == 2):
