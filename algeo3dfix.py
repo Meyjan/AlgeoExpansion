@@ -258,16 +258,16 @@ def operate(opr):
 
     elif(opr[0]=='custom'): #custom
         if(len(opr) == 10):
-            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3]) and RepresentFloat(opr[4]) and RepresentFloat(opr[5]) and RepresentFloat(opr[6]) and RepresentFloat(opr[7]) and RepresentFloat(opr[8])):
-                a=float(a)
-                b=float(b)
-                c=float(c)
-                d=float(d)
-                e=float(e)
-                f=float(f)
-                g=float(g)
-                h=float(h)
-                i=float(i)
+            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3]) and RepresentFloat(opr[4]) and RepresentFloat(opr[5]) and RepresentFloat(opr[6]) and RepresentFloat(opr[7]) and RepresentFloat(opr[8]) and RepresentFloat(opr[9])):
+                a=float(opr[1])
+                b=float(opr[2])
+                c=float(opr[3])
+                d=float(opr[4])
+                e=float(opr[5])
+                f=float(opr[6])
+                g=float(opr[7])
+                h=float(opr[8])
+                i=float(opr[9])
                 nverticies=[]
                 for vertex in verticies:
                     vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -377,16 +377,16 @@ def operate(opr):
 
                     elif(opr[0]=='custom'): #custom
                         if(len(opr) == 10):
-                            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3]) and RepresentFloat(opr[4]) and RepresentFloat(opr[5]) and RepresentFloat(opr[6]) and RepresentFloat(opr[7]) and RepresentFloat(opr[8])):
-                                a=float(a)
-                                b=float(b)
-                                c=float(c)
-                                d=float(d)
-                                e=float(e)
-                                f=float(f)
-                                g=float(g)
-                                h=float(h)
-                                i=float(i)
+                            if(RepresentFloat(opr[1]) and RepresentFloat(opr[2]) and RepresentFloat(opr[3]) and RepresentFloat(opr[4]) and RepresentFloat(opr[5]) and RepresentFloat(opr[6]) and RepresentFloat(opr[7]) and RepresentFloat(opr[8]) and RepresentFloat(opr[9])):
+                                a=float(opr[1])
+                                b=float(opr[2])
+                                c=float(opr[3])
+                                d=float(opr[4])
+                                e=float(opr[5])
+                                f=float(opr[6])
+                                g=float(opr[7])
+                                h=float(opr[8])
+                                i=float(opr[9])
                                 nverticies=[]
                                 for vertex in verticies:
                                     vx=createpoint3D(vertex[0],vertex[1],vertex[2])
@@ -479,4 +479,4 @@ def main():
             if event.type == KEYDOWN and event.key == K_n:
                 glTranslatef(0.0,0,-1)
         refresh()
-main3()
+main()
