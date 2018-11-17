@@ -436,7 +436,7 @@ def refresh():
     pygame.display.flip()
     clock.tick(60)
 
-def main():
+def main3():
     pygame.init()
 
     display = (800,600)
@@ -479,4 +479,4 @@ def main():
             if event.type == KEYDOWN and event.key == K_n:
                 glTranslatef(0.0,0,-1)
         refresh()
-main()
+main3()
